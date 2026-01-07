@@ -29,7 +29,7 @@ A Python script to create a full local backup of a LiveJournal blog. The script 
 
 1.  Run the script:
     ```bash
-    python main.py
+    python SaveLj.py
     ```
 2.  Enter the LiveJournal username when prompted (e.g., `mi3ch`).
 3.  The script will verify the URL. If valid, it will create a folder named `{username}` and start downloading.
@@ -77,7 +77,7 @@ Python-скрипт для создания полной локальной ко
 
 1.  Запустите скрипт:
     ```bash
-    python main.py
+    python SaveLj.py
     ```
 2.  Введите имя пользователя ЖЖ, когда появится запрос (например: `tema` или `varlamov`).
 3.  Скрипт проверит URL. Если журнал существует, он создаст папку с именем этого журнала и начнет скачивание.
