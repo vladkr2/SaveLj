@@ -31,9 +31,9 @@ A Python script to create a full local backup of a LiveJournal blog. The script 
     ```bash
     python SaveLj.py
     ```
-    Slow download:
+    or Slow download:
     ```bash
-    SaveLjSlow.py
+    python SaveLjSlow.py
     ```
 2.  Enter the LiveJournal username when prompted (e.g., `mi3ch`).
 3.  The script will verify the URL. If valid, it will create a folder named `{username}` and start downloading.
@@ -83,9 +83,9 @@ Python-скрипт для создания полной локальной ко
     ```bash
     python SaveLj.py
     ```
-    Медленная скачка:
+    или Медленная скачка:
     ```bash
-    SaveLjSlow.py
+    python SaveLjSlow.py
     ```
 3.  Введите имя пользователя ЖЖ, когда появится запрос (например: `tema` или `varlamov`).
 4.  Скрипт проверит URL. Если журнал существует, он создаст папку с именем этого журнала и начнет скачивание.
