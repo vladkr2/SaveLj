@@ -117,9 +117,12 @@ def extract_post_urls_from_page(soup, username):
     urls = set()
     for link in soup.find_all('a', href=True):
         href = link['href']
+        #print("FOUND HREF:", href)   
         # Ищем ссылки формата username.livejournal.com/NNNNN.html
-        if f"{username}.livejournal.com" in href and re.search(r'/\d+\.html$', href):
+        if f"livejournal.com" in href and re.search(r'/\d+\.html$', href):
+            print("ADDED URL:", href)
             urls.add(href)
+            
     return urls
 
 def get_day_urls_from_year_page(soup, username, year):
@@ -159,7 +162,7 @@ def get_all_post_urls_by_year():
         soup = BeautifulSoup(r.text, 'html.parser')
         
         # СПОСОБ 1: Ищем ссылки на дни с записями (календарный вид)
-        day_urls = get_day_urls_from_year_page(soup, USERNAME, YEAR)
+        day_urls = get_day_urls_from_year_page(soup, USERNAME ,YEAR)
         
         if day_urls:
             # print(f"      📆 Найдено {len(day_urls)} дней с записями")
@@ -219,7 +222,7 @@ def get_all_post_urls_by_year():
 
 def get_mobile_comments(username, post_id, raw_save_path):
     mobile_url = f"https://m.livejournal.com/read/user/{username}/{post_id}/comments"
-    print(f"   💬 Загружаю комментарии...")
+    print(f"   💬 ! Загружаю комментарии... {mobile_url}")
     
     try:
         r = requests.get(mobile_url, headers=HEADERS, cookies=COOKIES, timeout=25)
