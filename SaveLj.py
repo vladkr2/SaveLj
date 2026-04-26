@@ -117,9 +117,12 @@ def extract_post_urls_from_page(soup, username):
     urls = set()
     for link in soup.find_all('a', href=True):
         href = link['href']
+        #print("FOUND HREF:", href)   
         # Ищем ссылки формата username.livejournal.com/NNNNN.html
-        if f"{username}.livejournal.com" in href and re.search(r'/\d+\.html$', href):
+        if f"livejournal.com" in href and re.search(r'/\d+\.html$', href):
+            print("ADDED URL:", href)
             urls.add(href)
+            
     return urls
 
 def get_day_urls_from_year_page(soup, username, year):
@@ -159,7 +162,7 @@ def get_all_post_urls_by_year():
         soup = BeautifulSoup(r.text, 'html.parser')
         
         # СПОСОБ 1: Ищем ссылки на дни с записями (календарный вид)
-        day_urls = get_day_urls_from_year_page(soup, USERNAME, YEAR)
+        day_urls = get_day_urls_from_year_page(soup, USERNAME ,YEAR)
         
         if day_urls:
             # print(f"      📆 Найдено {len(day_urls)} дней с записями")
@@ -219,7 +222,7 @@ def get_all_post_urls_by_year():
 
 def get_mobile_comments(username, post_id, raw_save_path):
     mobile_url = f"https://m.livejournal.com/read/user/{username}/{post_id}/comments"
-    print(f"   💬 Загружаю комментарии...")
+    print(f"   💬 ! Загружаю комментарии... {mobile_url}")
     
     try:
         r = requests.get(mobile_url, headers=HEADERS, cookies=COOKIES, timeout=25)
@@ -282,6 +285,12 @@ def process_posts(urls, current_output_folder):
             post_id = post_id_match.group(1)
 
             print(f"\n[{i+1}/{len(urls)}] 📝 Пост #{post_id} ({url})")
+            username2 = url.split("https://", 1)[1].split(".", 1)[0]
+            if username2 == "users":
+                username2 = url.split(".com/", 1)[1].split("/", 1)[0]
+
+            print(username2)
+
             
             # Проверка, скачан ли уже файл
             # (нужно знать дату заранее, но мы не знаем, поэтому проверим после загрузки или примерно)
@@ -342,7 +351,7 @@ def process_posts(urls, current_output_folder):
             raw_comment_filename = f"comments_{post_id}.html"
             raw_comment_path = os.path.join(comments_raw_dir, raw_comment_filename)
             random_delay(DELAYS['between_comments'])
-            comments_html = get_mobile_comments(USERNAME, post_id, raw_comment_path)
+            comments_html = get_mobile_comments(username2, post_id, raw_comment_path)
 
             # Сохранение HTML
             final_html = f"""<!DOCTYPE html>
