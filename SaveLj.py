@@ -285,6 +285,12 @@ def process_posts(urls, current_output_folder):
             post_id = post_id_match.group(1)
 
             print(f"\n[{i+1}/{len(urls)}] 📝 Пост #{post_id} ({url})")
+            username2 = url.split("https://", 1)[1].split(".", 1)[0]
+            if username2 == "users":
+                username2 = url.split(".com/", 1)[1].split("/", 1)[0]
+
+            print(username2)
+
             
             # Проверка, скачан ли уже файл
             # (нужно знать дату заранее, но мы не знаем, поэтому проверим после загрузки или примерно)
@@ -345,7 +351,7 @@ def process_posts(urls, current_output_folder):
             raw_comment_filename = f"comments_{post_id}.html"
             raw_comment_path = os.path.join(comments_raw_dir, raw_comment_filename)
             random_delay(DELAYS['between_comments'])
-            comments_html = get_mobile_comments(USERNAME, post_id, raw_comment_path)
+            comments_html = get_mobile_comments(username2, post_id, raw_comment_path)
 
             # Сохранение HTML
             final_html = f"""<!DOCTYPE html>
